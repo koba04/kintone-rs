@@ -24,7 +24,8 @@ impl<'a> Kintone<'a> {
         .await?
         .json::<Value>()
         .await?;
-        Ok(resp)
+        // TODO: should not clone
+        Ok(resp["record"].clone())
     }
 
 }
