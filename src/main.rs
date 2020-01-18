@@ -4,7 +4,7 @@ use clap::{Arg, App};
 use kintone::api_client::Kintone;
 
 fn main() {
-    let matches = App::new("My Super Program")
+    let matches = App::new("rust-kintone")
         .version("0.1.0")
         .author("koba04")
         .about("API Client for kintone")
@@ -27,7 +27,7 @@ fn main() {
     let api_token = matches.value_of("api_token").expect("api_token is required option");
 
     let api_client = Kintone::new(base_url, api_token);
-    println!("base_url is {}, api_token is {}", api_client.get_base_url(), api_token);
+
     let result = api_client.get_record(3, 1).unwrap();
     println!("record is {}", result["Text"]["value"]);
 }
