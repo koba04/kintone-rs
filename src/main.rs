@@ -43,5 +43,5 @@ fn main() {
     let api_client = Kintone::new(base_url, api_token);
 
     let result = api_client.get_record(app, record).unwrap();
-    println!("record is {}", result["Text"]["value"]);
+    println!("{:}", result);
 }
