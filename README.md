@@ -13,7 +13,7 @@ kintone-rs --base_url https://example.cybozu.com/ --api_token YOUR_API_TOKEN --a
 ## Crate
 
 ```rust
-use kintone::api_client::KintoneAPIClient;
+use kintone_rs::KintoneAPIClient;
 
 let YOUR_APP_ID = 1;
 let YOUR_RECORD_ID = 2;

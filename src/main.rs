@@ -1,7 +1,8 @@
 extern crate clap;
 use clap::{Arg, App};
 
-use kintone::api_client::KintoneAPIClient;
+extern crate kintone_rs;
+use kintone_rs::KintoneAPIClient;
 
 fn main() {
     let matches = App::new("rust-kintone")
