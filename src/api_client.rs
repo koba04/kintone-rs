@@ -17,9 +17,6 @@ impl<'a> Kintone<'a> {
             http_client
         }
     }
-    pub fn get_base_url(&self) -> &str {
-        self.base_url
-    }
     #[tokio::main]
     pub async fn get_record(&self, app: i32, record_id: i32) -> Result<Value, Box<dyn std::error::Error>> {
         let res = self.http_client.get(
