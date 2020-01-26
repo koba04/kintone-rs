@@ -20,14 +20,28 @@ fn main() {
                 .help("set API Token you want to use")
                 .takes_value(true)
         )
+        .arg(
+            Arg::with_name("app")
+            .long("app")
+            .help("set an App ID you want to get")
+            .takes_value(true)
+        )
+        .arg(
+            Arg::with_name("record")
+            .long("record")
+            .help("set an Record ID you want to get")
+            .takes_value(true)
+        )
         .get_matches()
     ;
 
     let base_url = matches.value_of("base_url").expect("base_url is required option");
     let api_token = matches.value_of("api_token").expect("api_token is required option");
+    let app = matches.value_of("app").expect("app is required option").parse::<i32>().expect("app should be a number");
+    let record = matches.value_of("record").expect("record is required option").parse::<i32>().expect("record should be a number");
 
     let api_client = Kintone::new(base_url, api_token);
 
-    let result = api_client.get_record(3, 1).unwrap();
+    let result = api_client.get_record(app, record).unwrap();
     println!("record is {}", result["Text"]["value"]);
 }
