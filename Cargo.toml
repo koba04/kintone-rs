@@ -3,6 +3,10 @@ name = "kintone-rs"
 version = "0.1.0"
 authors = ["Toru Kobayashi <koba0004@gmail.com>"]
 edition = "2018"
+documentation = "https://docs.rs/kintone-rs"
+license = "MIT"
+description = "A kintone API client for Rust language"
+repository = "https://github.com/koba04/kintone-rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
