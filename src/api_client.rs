@@ -1,33 +1,22 @@
-use serde_json::{Value};
 use std::collections::HashMap;
 use crate::http::HttpClient;
 
+pub mod record;
+use record::Record;
+
 pub struct KintoneAPIClient<'a> {
-    http_client: Box<HttpClient<'a>>,
-    base_url: &'a str,
+    pub record: Box<Record<'a>>
 }
 
 impl<'a> KintoneAPIClient<'a> {
     pub fn new(base_url: &'a str, api_token: &'a str) -> KintoneAPIClient<'a> {
+
         let mut headers = HashMap::new();
         headers.insert("X-Cybozu-API-Token", api_token);
-        let http_client = Box::new(HttpClient::new(Box::new(headers)));
+        let http_client = Box::new(HttpClient::new(Box::new(headers), base_url));
+        let record = Box::new(Record::new(http_client));
         KintoneAPIClient {
-            base_url,
-            http_client
+            record
         }
-    }
-    #[tokio::main]
-    pub async fn get_record(&self, app: i32, record_id: i32) -> Result<Value, Box<dyn std::error::Error>> {
-        let res = self.http_client.get(
-            &self.build_url(
-                "record.json",
-                &format!("app={}&id={}", app, record_id)
-            )
-        ).await?;
-        Ok(res)
-    }
-    fn build_url(&self, end_point: &str, query: &str) -> String {
-        format!("{}k/v1/{}?{}", self.base_url, end_point, query)
     }
 }

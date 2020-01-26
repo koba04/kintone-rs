@@ -19,7 +19,7 @@ let YOUR_APP_ID = 1;
 let YOUR_RECORD_ID = 2;
 
 let api_client = KintoneAPIClient::new("https://example.cybozu.com", "YOUR_API_TOKEN");
-let result = api_client.get_record(YOUR_APP_ID, YOUR_RECORD_ID).expect("An error occured");
+let result = api_client.record.get_record(YOUR_APP_ID, YOUR_RECORD_ID).expect("An error occured");
 ```
 
 ## Support APIs
