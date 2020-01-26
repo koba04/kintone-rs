@@ -13,8 +13,8 @@ impl<'a> HttpClient<'a> {
             headers
         }
     }
-    pub async fn get(&self, url: String) -> Result<Value, Box<dyn std::error::Error>> {
-        let mut client = reqwest::Client::new().get(&url);
+    pub async fn get(&self, url: &str) -> Result<Value, Box<dyn std::error::Error>> {
+        let mut client = reqwest::Client::new().get(url);
         for (name, value) in &*self.headers {
             client = client.header(*name, *value);
         }

@@ -20,7 +20,7 @@ impl<'a> Kintone<'a> {
     #[tokio::main]
     pub async fn get_record(&self, app: i32, record_id: i32) -> Result<Value, Box<dyn std::error::Error>> {
         let res = self.http_client.get(
-            self.build_url(
+            &self.build_url(
                 "record.json",
                 &format!("app={}&id={}", app, record_id)
             )
