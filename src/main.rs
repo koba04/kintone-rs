@@ -1,7 +1,7 @@
 extern crate clap;
 use clap::{Arg, App};
 
-use kintone::api_client::Kintone;
+use kintone::api_client::KintoneAPIClient;
 
 fn main() {
     let matches = App::new("rust-kintone")
@@ -40,7 +40,7 @@ fn main() {
     let app = matches.value_of("app").expect("app is required option").parse::<i32>().expect("app should be a number");
     let record = matches.value_of("record").expect("record is required option").parse::<i32>().expect("record should be a number");
 
-    let api_client = Kintone::new(base_url, api_token);
+    let api_client = KintoneAPIClient::new(base_url, api_token);
 
     let result = api_client.get_record(app, record).unwrap();
     println!("{:}", result);

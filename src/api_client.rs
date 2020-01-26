@@ -2,17 +2,17 @@ use serde_json::{Value};
 use std::collections::HashMap;
 use crate::http::HttpClient;
 
-pub struct Kintone<'a> {
+pub struct KintoneAPIClient<'a> {
     http_client: Box<HttpClient<'a>>,
     base_url: &'a str,
 }
 
-impl<'a> Kintone<'a> {
-    pub fn new(base_url: &'a str, api_token: &'a str) -> Kintone<'a> {
+impl<'a> KintoneAPIClient<'a> {
+    pub fn new(base_url: &'a str, api_token: &'a str) -> KintoneAPIClient<'a> {
         let mut headers = HashMap::new();
         headers.insert("X-Cybozu-API-Token", api_token);
         let http_client = Box::new(HttpClient::new(Box::new(headers)));
-        Kintone {
+        KintoneAPIClient {
             base_url,
             http_client
         }

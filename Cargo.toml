@@ -1,5 +1,5 @@
 [package]
-name = "rust-kintone"
+name = "kintone-rs"
 version = "0.1.0"
 authors = ["Toru Kobayashi <koba0004@gmail.com>"]
 edition = "2018"

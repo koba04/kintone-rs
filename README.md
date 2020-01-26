@@ -1,4 +1,4 @@
-# rust-kintone
+# kintone-rs
 
 A kintone API client for Rust language.
 
@@ -7,18 +7,18 @@ A kintone API client for Rust language.
 ## CLI
 
 ```
-rust-kintone --base_url https://example.cybozu.com/ --api_token YOUR_API_TOKEN --app YOUR_APP_ID --record YOUR_RECORD_ID
+kintone-rs --base_url https://example.cybozu.com/ --api_token YOUR_API_TOKEN --app YOUR_APP_ID --record YOUR_RECORD_ID
 ```
 
 ## Crate
 
 ```rust
-use kintone::api_client::Kintone;
+use kintone::api_client::KintoneAPIClient;
 
 let YOUR_APP_ID = 1;
 let YOUR_RECORD_ID = 2;
 
-let api_client = Kintone::new("https://example.cybozu.com", "YOUR_API_TOKEN");
+let api_client = KintoneAPIClient::new("https://example.cybozu.com", "YOUR_API_TOKEN");
 let result = api_client.get_record(YOUR_APP_ID, YOUR_RECORD_ID).expect("An error occured");
 ```
 
