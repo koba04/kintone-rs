@@ -19,7 +19,19 @@ impl<'a> Record<'a> {
                 &format!("app={}&id={}", app, record_id)
             )
         ).await?;
-        Ok(res)
+        // should not clone
+        Ok(res["record"].clone())
+    }
+    #[tokio::main]
+    pub async fn get_records(&self, app: i32) -> Result<Value, Box<dyn std::error::Error>> {
+        let res = self.http_client.get(
+            &self.build_url(
+                "records.json",
+                &format!("app={}", app)
+            )
+        ).await?;
+        // should not clone
+        Ok(res["records"].clone())
     }
     fn build_url(&self, end_point: &str, query: &str) -> String {
         format!("k/v1/{}?{}", end_point, query)

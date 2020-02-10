@@ -21,7 +21,6 @@ impl<'a> HttpClient<'a> {
             client = client.header(*name, *value);
         }
         let resp = client.send().await?.json::<Value>().await?;
-        // TODO: should not clone
-        Ok(resp["record"].clone())
+        Ok(resp)
     }
 }
