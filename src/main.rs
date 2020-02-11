@@ -33,6 +33,12 @@ fn main() {
             .help("set an Record ID you want to get")
             .takes_value(true)
         )
+        .arg(
+            Arg::with_name("fields")
+            .long("fields")
+            .help("set field codes you want to get as comma-separated list")
+            .takes_value(true)
+        )
         .get_matches()
     ;
 
@@ -46,7 +52,11 @@ fn main() {
     if let Some(record) = matches.value_of("record") {
         result = api_client.record.get_record(app, record.parse::<i32>().expect("app should be a number")).unwrap();
     } else {
-        result = api_client.record.get_records(app).unwrap();
+        let mut fields = None;
+        if let Some(fields_str) = matches.value_of("fields") {
+            fields = Some(fields_str.split(',').collect());
+        }
+        result = api_client.record.get_records(app, fields).unwrap();
     }
     println!("{:}", result);
 }

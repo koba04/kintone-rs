@@ -33,6 +33,7 @@ impl<'a> HttpClient<'a> {
         for (key, value) in params {
             url.query_pairs_mut().append_pair(key, value);
         }
+        // println!("request url is {}", url.as_str());
         String::from(url.as_str())
     }
 }

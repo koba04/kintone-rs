@@ -25,10 +25,15 @@ impl<'a> Record<'a> {
         Ok(res["record"].clone())
     }
     #[tokio::main]
-    pub async fn get_records(&self, app: i32) -> Result<Value, Box<dyn std::error::Error>> {
-        let params = vec![
+    pub async fn get_records(&self, app: i32, fields: Option<Vec<&str>>) -> Result<Value, Box<dyn std::error::Error>> {
+        let mut params = vec![
             ("app", app.to_string()),
         ];
+        if let Some(fields) = fields {
+            for field in fields {
+                params.push(("fields", String::from(field)))
+            }
+        }
         let res = self.http_client.get(
             "records.json",
             &params
