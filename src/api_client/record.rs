@@ -13,27 +13,27 @@ impl<'a> Record<'a> {
     }
     #[tokio::main]
     pub async fn get_record(&self, app: i32, record_id: i32) -> Result<Value, Box<dyn std::error::Error>> {
+        let params = vec![
+            (String::from("app"), app.to_string()),
+            (String::from("id"), record_id.to_string()),
+        ];
         let res = self.http_client.get(
-            &self.build_url(
-                "record.json",
-                &format!("app={}&id={}", app, record_id)
-            )
+            "record.json",
+            &params
         ).await?;
         // should not clone
         Ok(res["record"].clone())
     }
     #[tokio::main]
     pub async fn get_records(&self, app: i32) -> Result<Value, Box<dyn std::error::Error>> {
+        let params = vec![
+            (String::from("app"), app.to_string()),
+        ];
         let res = self.http_client.get(
-            &self.build_url(
-                "records.json",
-                &format!("app={}", app)
-            )
+            "records.json",
+            &params
         ).await?;
         // should not clone
         Ok(res["records"].clone())
-    }
-    fn build_url(&self, end_point: &str, query: &str) -> String {
-        format!("k/v1/{}?{}", end_point, query)
     }
 }
