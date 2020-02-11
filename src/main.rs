@@ -33,16 +33,37 @@ fn main() {
             .help("set an Record ID you want to get")
             .takes_value(true)
         )
+        .arg(
+            Arg::with_name("query")
+            .long("query")
+            .help("set a query string you want to get")
+            .takes_value(true)
+        )
+        .arg(
+            Arg::with_name("fields")
+            .long("fields")
+            .help("set field codes you want to get as comma-separated list")
+            .takes_value(true)
+        )
         .get_matches()
     ;
 
     let base_url = matches.value_of("base_url").expect("base_url is required option");
     let api_token = matches.value_of("api_token").expect("api_token is required option");
     let app = matches.value_of("app").expect("app is required option").parse::<i32>().expect("app should be a number");
-    let record = matches.value_of("record").expect("record is required option").parse::<i32>().expect("record should be a number");
 
     let api_client = KintoneAPIClient::new(base_url, api_token);
 
-    let result = api_client.record.get_record(app, record).unwrap();
+    let result: serde_json::value::Value;
+    if let Some(record) = matches.value_of("record") {
+        result = api_client.record.get_record(app, record.parse::<i32>().expect("app should be a number")).unwrap();
+    } else {
+        let mut fields = None;
+        if let Some(fields_str) = matches.value_of("fields") {
+            fields = Some(fields_str.split(',').collect());
+        }
+        let query = matches.value_of("query");
+        result = api_client.record.get_records(app, query, fields).unwrap();
+    }
     println!("{:}", result);
 }
