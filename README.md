@@ -38,6 +38,7 @@ let records = api_client.record.get_records(
 ## Support APIs
 
 - [Get Record](https://developer.kintone.io/hc/en-us/articles/213149287)
+- [Get Records](https://developer.kintone.io/hc/en-us/articles/360019245194)
 
 ## LICENSE
 
