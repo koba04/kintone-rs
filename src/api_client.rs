@@ -9,6 +9,22 @@ pub struct KintoneAPIClient<'a> {
 }
 
 impl<'a> KintoneAPIClient<'a> {
+    /// constructor for KintoneAPIClient
+    ///
+    /// # Arguments
+    ///
+    /// * `base_url` - A base URL of your environment. e.g. https://example.kintone.com
+    /// * `api_token` - A API token for target apps, which can be comma-separated list
+    ///
+    /// ```
+    /// use kintone_rs::KintoneAPIClient;
+    /// let client = KintoneAPIClient::new("https://example.kintone.com", "some token");
+    /// ```
+    ///
+    /// # Properties
+    ///
+    /// * `record` - A Record client to deal with records
+    ///
     pub fn new(base_url: &'a str, api_token: &'a str) -> KintoneAPIClient<'a> {
 
         let mut headers = HashMap::new();
