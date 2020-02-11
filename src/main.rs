@@ -34,6 +34,12 @@ fn main() {
             .takes_value(true)
         )
         .arg(
+            Arg::with_name("query")
+            .long("query")
+            .help("set a query string you want to get")
+            .takes_value(true)
+        )
+        .arg(
             Arg::with_name("fields")
             .long("fields")
             .help("set field codes you want to get as comma-separated list")
@@ -56,7 +62,8 @@ fn main() {
         if let Some(fields_str) = matches.value_of("fields") {
             fields = Some(fields_str.split(',').collect());
         }
-        result = api_client.record.get_records(app, fields).unwrap();
+        let query = matches.value_of("query");
+        result = api_client.record.get_records(app, query, fields).unwrap();
     }
     println!("{:}", result);
 }
