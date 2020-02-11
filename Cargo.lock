@@ -345,7 +345,7 @@ dependencies = [
 
 [[package]]
 name = "kintone-rs"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "reqwest 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
