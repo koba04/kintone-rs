@@ -14,8 +14,8 @@ impl<'a> Record<'a> {
     #[tokio::main]
     pub async fn get_record(&self, app: i32, record_id: i32) -> Result<Value, Box<dyn std::error::Error>> {
         let params = vec![
-            (String::from("app"), app.to_string()),
-            (String::from("id"), record_id.to_string()),
+            ("app", app.to_string()),
+            ("id", record_id.to_string()),
         ];
         let res = self.http_client.get(
             "record.json",
@@ -27,7 +27,7 @@ impl<'a> Record<'a> {
     #[tokio::main]
     pub async fn get_records(&self, app: i32) -> Result<Value, Box<dyn std::error::Error>> {
         let params = vec![
-            (String::from("app"), app.to_string()),
+            ("app", app.to_string()),
         ];
         let res = self.http_client.get(
             "records.json",

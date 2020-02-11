@@ -9,7 +9,7 @@ pub struct HttpClient<'a> {
     base_url: &'a str
 }
 
-pub type Params = Vec<(String, String)>;
+pub type Params<'a> = Vec<(&'a str, String)>;
 
 impl<'a> HttpClient<'a> {
     pub fn new(headers: Box<Header<'a>>, base_url: &'a str) -> HttpClient<'a> {
@@ -18,7 +18,7 @@ impl<'a> HttpClient<'a> {
             base_url
         }
     }
-    pub async fn get(&self, path: &str, params: &Params) -> Result<Value, Box<dyn std::error::Error>> {
+    pub async fn get(&self, path: &str, params: &Params<'a>) -> Result<Value, Box<dyn std::error::Error>> {
         let url = self.build_url(path, params);
         let mut client = reqwest::Client::new().get(&url);
         for (name, value) in &*self.headers {
@@ -33,7 +33,6 @@ impl<'a> HttpClient<'a> {
         for (key, value) in params {
             url.query_pairs_mut().append_pair(key, value);
         }
-        let result = String::from(url.as_str());
-        result
+        String::from(url.as_str())
     }
 }
