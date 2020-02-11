@@ -1,6 +1,6 @@
 [package]
 name = "kintone-rs"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Toru Kobayashi <koba0004@gmail.com>"]
 edition = "2018"
 documentation = "https://docs.rs/kintone-rs"
