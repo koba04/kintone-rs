@@ -1,10 +1,28 @@
 extern crate clap;
-use clap::{Arg, App};
+use clap::{Clap, ArgSettings};
 
 extern crate kintone_rs;
 use kintone_rs::KintoneAPIClient;
 
+#[derive(Clap, Debug)]
+#[clap(name = "env")]
+struct Opts {
+    #[clap(long, env = "KINTONE_BASE_URL")]
+    base_url: String,
+    #[clap(long, env = "KINTONE_API_TOKEN", setting = ArgSettings::HideEnvValues)]
+    api_token: Option<String>,
+    #[clap(long)]
+    app: i32,
+    /*
+    #[clap(long, env = "KINTONE_USER_NAME")]
+    user_name: Option<String>,
+    #[clap(long, env = "KINTONE_PASSWORD")]
+    password: Option<String>,
+    */
+}
+
 fn main() {
+    /*
     let matches = App::new("rust-kintone")
         .version("0.1.0")
         .author("koba04")
@@ -47,13 +65,20 @@ fn main() {
         )
         .get_matches()
     ;
+    */
+    let opts: Opts = Opts::parse();
 
-    let base_url = matches.value_of("base_url").expect("base_url is required option");
-    let api_token = matches.value_of("api_token").expect("api_token is required option");
-    let app = matches.value_of("app").expect("app is required option").parse::<i32>().expect("app should be a number");
+    // println!("{:?}", opts);
 
-    let api_client = KintoneAPIClient::new(base_url, api_token);
+    let base_url = &opts.base_url;
+    let api_token = &opts.api_token.unwrap();
+    let app = opts.app;
 
+    let api_client = KintoneAPIClient::new(base_url, &api_token);
+    let result = api_client.record.get_records(app, None, None).unwrap();
+    println!("{:}", result);
+
+    /*
     let result: serde_json::value::Value;
     if let Some(record) = matches.value_of("record") {
         result = api_client.record.get_record(app, record.parse::<i32>().expect("app should be a number")).unwrap();
@@ -65,5 +90,5 @@ fn main() {
         let query = matches.value_of("query");
         result = api_client.record.get_records(app, query, fields).unwrap();
     }
-    println!("{:}", result);
+    */
 }

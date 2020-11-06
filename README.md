@@ -6,12 +6,10 @@ A kintone API client for Rust language.
 
 ## CLI
 
-```
-# get a record
-kintone-rs --base_url https://example.cybozu.com/ --api_token YOUR_API_TOKEN --app YOUR_APP_ID --record YOUR_RECORD_ID
+Please check the help message.
 
-# get records
-kintone-rs --base_url https://example.cybozu.com/ --api_token YOUR_API_TOKEN --app YOUR_APP_ID --query 'Company_Name = "foo"' --fields "Company_Name,Address"
+```
+kintone-rs --help
 ```
 
 ## Crate
