@@ -61,8 +61,8 @@ impl<'a> Record<'a> {
     /// let client = KintoneAPIClient::new("https://example.kintone.com", "some token");
     /// let records = client.record.get_records(
     ///     1,
-    ///     Some("Company_Name = \"foo\""),
-    ///     Some(vec!["Company_Name", "Address"])
+    ///     Some(String::from("Company_Name = \"foo\"")),
+    ///     Some(vec![String::from("Company_Name"), String::from("Address")]),
     ///     false
     /// );
     /// ```
