@@ -46,7 +46,7 @@ impl<'a> Record<'a> {
             &params
         ).await?;
         // should not clone
-        Ok(res["record"].clone())
+        Ok(res.clone())
     }
     /// get records from an app
     ///
@@ -55,6 +55,7 @@ impl<'a> Record<'a> {
     /// * `app` - The app ID
     /// * `query` - A query string for conditions
     /// * `fields` - fields list you want to get
+    /// * `total_count` - A boolean whether returning the total count
     /// ```
     /// use kintone_rs::KintoneAPIClient;
     /// let client = KintoneAPIClient::new("https://example.kintone.com", "some token");
@@ -62,6 +63,7 @@ impl<'a> Record<'a> {
     ///     1,
     ///     Some("Company_Name = \"foo\""),
     ///     Some(vec!["Company_Name", "Address"])
+    ///     false
     /// );
     /// ```
     #[tokio::main]

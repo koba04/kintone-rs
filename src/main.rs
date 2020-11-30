@@ -17,11 +17,20 @@ struct Opts {
 
 #[derive(Clap)]
 enum SubCommand {
+    GetRecords(GetRecords),
     GetRecord(GetRecord)
 }
 
 #[derive(Clap)]
 struct GetRecord {
+    #[clap(long)]
+    app: i32,
+    #[clap(long)]
+    id: i32
+}
+
+#[derive(Clap)]
+struct GetRecords {
     #[clap(long)]
     app: i32,
     #[clap(long)]
@@ -41,6 +50,12 @@ fn main() {
 
     match opts.subcmd {
         SubCommand::GetRecord(args) => {
+            let app = args.app;
+            let id = args.id;
+            let result = api_client.record.get_record(app, id).unwrap();
+            println!("{:}", result);
+        }
+        SubCommand::GetRecords(args) => {
             let app = args.app;
             let query = args.query;
             let fields = args.fields;
