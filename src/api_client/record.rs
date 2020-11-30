@@ -65,7 +65,7 @@ impl<'a> Record<'a> {
     /// );
     /// ```
     #[tokio::main]
-    pub async fn get_records(&self, app: i32, query: Option<String>, fields: Option<Vec<String>>) -> Result<Value, Box<dyn std::error::Error>> {
+    pub async fn get_records(&self, app: i32, query: Option<String>, fields: Option<Vec<String>>, total_count: bool) -> Result<Value, Box<dyn std::error::Error>> {
         let mut params = vec![
             ("app", app.to_string()),
         ];
@@ -77,11 +77,14 @@ impl<'a> Record<'a> {
         if let Some(query) = query {
             params.push(("query", query));
         }
+        if total_count {
+            params.push(("totalCount", String::from("true")))
+        }
         let res = self.http_client.get(
             "records.json",
             &params
         ).await?;
         // FIXME: should not clone
-        Ok(res["records"].clone())
+        Ok(res.clone())
     }
 }

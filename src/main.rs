@@ -27,7 +27,9 @@ struct GetRecord {
     #[clap(long)]
     query: Option<String>,
     #[clap(multiple = true, long)]
-    fields: Option<Vec<String>>
+    fields: Option<Vec<String>>,
+    #[clap(long)]
+    total_count: bool
 }
 
 fn main() {
@@ -42,7 +44,8 @@ fn main() {
             let app = args.app;
             let query = args.query;
             let fields = args.fields;
-            let result = api_client.record.get_records(app, query, fields).unwrap();
+            let total_count = args.total_count;
+            let result = api_client.record.get_records(app, query, fields, total_count).unwrap();
             println!("{:}", result);
         },
     }

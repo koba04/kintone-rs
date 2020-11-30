@@ -20,6 +20,7 @@ impl<'a> HttpClient<'a> {
     }
     pub async fn get(&self, path: &str, params: &Params<'_>) -> Result<Value, Box<dyn std::error::Error>> {
         let url = self.build_url(path, params);
+        // println!("request url {}", url);
         let mut client = reqwest::Client::new().get(&url);
         for (name, value) in &*self.headers {
             client = client.header(*name, *value);
