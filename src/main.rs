@@ -3,6 +3,8 @@ use clap::{Clap, ArgSettings};
 
 extern crate kintone_rs;
 use kintone_rs::KintoneAPIClient;
+use kintone_rs::cli::record::*;
+use kintone_rs::printer;
 
 #[derive(Clap)]
 #[clap(name = "kintone-rs", author = "koba04", version = "0.1.0", about = "A REST API for kintone")]
@@ -21,26 +23,6 @@ enum SubCommand {
     GetRecord(GetRecord)
 }
 
-#[derive(Clap)]
-struct GetRecord {
-    #[clap(long)]
-    app: i32,
-    #[clap(long)]
-    id: i32
-}
-
-#[derive(Clap)]
-struct GetRecords {
-    #[clap(long)]
-    app: i32,
-    #[clap(long)]
-    query: Option<String>,
-    #[clap(multiple = true, long)]
-    fields: Option<Vec<String>>,
-    #[clap(long)]
-    total_count: bool
-}
-
 fn main() {
     let opts: Opts = Opts::parse();
 
@@ -50,18 +32,12 @@ fn main() {
 
     match opts.subcmd {
         SubCommand::GetRecord(args) => {
-            let app = args.app;
-            let id = args.id;
-            let result = api_client.record.get_record(app, id).unwrap();
-            println!("{:}", result);
+            let result = get_record(api_client, args);
+            printer::print(result);
         }
         SubCommand::GetRecords(args) => {
-            let app = args.app;
-            let query = args.query;
-            let fields = args.fields;
-            let total_count = args.total_count;
-            let result = api_client.record.get_records(app, query, fields, total_count).unwrap();
-            println!("{:}", result);
+            let result = get_records(api_client, args);
+            printer::print(result);
         },
     }
 }
