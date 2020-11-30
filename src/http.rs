@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use url::{Url};
-use serde_json::{Value};
+use serde::{Deserialize};
 
 type Header<'a> = HashMap<&'a str, &'a str>;
 
@@ -18,14 +18,14 @@ impl<'a> HttpClient<'a> {
             base_url
         }
     }
-    pub async fn get(&self, path: &str, params: &Params<'_>) -> Result<Value, Box<dyn std::error::Error>> {
+    pub async fn get<T: Clone + for<'de> Deserialize<'de>>(&self, path: &str, params: &Params<'_>) -> Result<T, Box<dyn std::error::Error>> {
         let url = self.build_url(path, params);
         // println!("request url {}", url);
         let mut client = reqwest::Client::new().get(&url);
         for (name, value) in &*self.headers {
             client = client.header(*name, *value);
         }
-        let resp = client.send().await?.json::<Value>().await?;
+        let resp = client.send().await?.json::<T>().await?;
         Ok(resp)
     }
     fn build_url(&self, end_point: &str, params: &Params) -> String {

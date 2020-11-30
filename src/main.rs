@@ -33,6 +33,7 @@ fn main() {
     match opts.subcmd {
         SubCommand::GetRecord(args) => {
             let result = get_record(api_client, args);
+            // println!("{:?}", result.records);
             printer::print(result);
         }
         SubCommand::GetRecords(args) => {

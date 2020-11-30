@@ -1,8 +1,21 @@
 use serde_json::{Value};
+use serde::{Serialize,Deserialize};
 use crate::http::HttpClient;
 
 pub struct Record<'a> {
     http_client: Box<HttpClient<'a>>,
+}
+
+
+#[derive(Deserialize, Clone, Serialize)]
+pub struct GetRecordResponse {
+    pub record: Value
+}
+
+#[derive(Deserialize, Clone, Serialize)]
+pub struct GetRecordsResponse {
+    pub records: Value,
+    pub totalCount: Value
 }
 
 impl<'a> Record<'a> {
@@ -36,12 +49,12 @@ impl<'a> Record<'a> {
     /// let record = client.record.get_record(1, 10);
     /// ```
     #[tokio::main]
-    pub async fn get_record(&self, app: i32, record_id: i32) -> Result<Value, Box<dyn std::error::Error>> {
+    pub async fn get_record(&self, app: i32, record_id: i32) -> Result<GetRecordResponse, Box<dyn std::error::Error>> {
         let params = vec![
             ("app", app.to_string()),
             ("id", record_id.to_string()),
         ];
-        let res = self.http_client.get(
+        let res = self.http_client.get::<GetRecordResponse>(
             "record.json",
             &params
         ).await?;
@@ -67,7 +80,7 @@ impl<'a> Record<'a> {
     /// );
     /// ```
     #[tokio::main]
-    pub async fn get_records(&self, app: i32, query: Option<String>, fields: Option<Vec<String>>, total_count: bool) -> Result<Value, Box<dyn std::error::Error>> {
+    pub async fn get_records(&self, app: i32, query: Option<String>, fields: Option<Vec<String>>, total_count: bool) -> Result<GetRecordsResponse, Box<dyn std::error::Error>> {
         let mut params = vec![
             ("app", app.to_string()),
         ];
@@ -82,7 +95,7 @@ impl<'a> Record<'a> {
         if total_count {
             params.push(("totalCount", String::from("true")))
         }
-        let res = self.http_client.get(
+        let res = self.http_client.get::<GetRecordsResponse>(
             "records.json",
             &params
         ).await?;

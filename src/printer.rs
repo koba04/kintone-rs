@@ -1,9 +1,10 @@
-use serde_json::{Value};
+use serde_json;
+use serde::{Serialize};
 
-pub fn print(result: Value) {
+pub fn print<T: Serialize>(result: T) {
     print_as_json(result);
 }
 
-fn print_as_json(result: Value) {
-    println!("{:}", result);
+fn print_as_json<T: Serialize>(result: T) {
+    println!("{:}", serde_json::to_value(result).unwrap());
 }

@@ -1,8 +1,8 @@
 extern crate clap;
 use clap::{Clap};
-use serde_json::{Value};
 
 use crate::api_client::KintoneAPIClient;
+use crate::api_client::record::*;
 
 #[derive(Clap)]
 pub struct GetRecord {
@@ -12,7 +12,7 @@ pub struct GetRecord {
     pub id: i32
 }
 
-pub fn get_record(api_client: KintoneAPIClient, args: GetRecord) -> Value {
+pub fn get_record(api_client: KintoneAPIClient, args: GetRecord) -> GetRecordResponse {
     let app = args.app;
     let id = args.id;
     api_client.record.get_record(app, id).unwrap()
@@ -30,7 +30,7 @@ pub struct GetRecords {
     pub total_count: bool
 }
 
-pub fn get_records(api_client: KintoneAPIClient, args: GetRecords) -> Value {
+pub fn get_records(api_client: KintoneAPIClient, args: GetRecords) -> GetRecordsResponse {
     let app = args.app;
     let query = args.query;
     let fields = args.fields;
